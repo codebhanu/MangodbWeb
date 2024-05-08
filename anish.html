@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="anisha.css" />
+  </head>
+
+  <body>
+    <div id="limitedtimeoption">
+      Get 20$ off on your first order.Offer Expires in
+    </div>
+
+    <div class="nav-container">
+      <div class="leftsidenav">
+        <button>Menu</button>
+        <button>About</button>
+        <button>Community</button>
+      </div>
+      <div class="logo-for-center">
+        <button></button>
+      </div>
+      <div class="rightsidenav">
+        <button>Gift Card</button>
+        <button>Get Started</button>
+        <button>Account</button>
+        <button>Image Link</button>
+      </div>
+    </div>
+
+    <div class="main-nav">
+      <button>Filter</button>
+      <button>Meals For Two</button>
+      <button>Meals For One</button>
+      <button>Family Pack</button>
+      <button>Appetizer</button>
+      <button>Pizza</button>
+      <button>Soups</button>
+      <button>Sides</button>
+    </div>
+    <br /><br />
+
+    <div id="maindiv">
+      <div id="menu-container"></div>
+      <p id="total-price">Total: $0</p>
+      <button id="submit-order">Submit Order</button>
+      <br><br>
+
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchMenuItems();
+        document
+          .getElementById("submit-order")
+          .addEventListener("click", submitOrder);
+      });
+
+      // countdown
+      var countDownDate = new Date().getTime() + 60 * 60 * 1000; 
+
+      // Update the countdown every 1 second to see the counntdown
+      var x = setInterval(function () {
+        var now = new Date().getTime();
+
+        var distance = countDownDate - now;
+
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("limitedtimeoption").innerHTML =
+          "Get 20$ off on your first order.Offer Expires in " +
+          hours +
+          " h " +
+          minutes +
+          " m " +
+          seconds +
+          " s";
+
+        
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("limitedtimeoption").innerHTML = "EXPIRED";
+        }
+      }, 1000);
+
+      function fetchMenuItems() {
+        fetch("http://localhost:3000/menu")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => displayMenuItems(data))
+          .catch((error) => {
+            console.error("Error fetching menu items:", error);
+            displayFetchError();
+          });
+      }
+
+      function displayFetchError() {
+        const menuContainer = document.getElementById("menu-container");
+        menuContainer.innerHTML =
+          "<p>Failed to load menu items. Please try again later.</p>";
+      }
+
+      function displayMenuItems(menuItems) {
+        const menuContainer = document.getElementById("menu-container");
+        menuItems.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "menu-item";
+
+          if (item.imgUrl) {
+            itemDiv.style.backgroundImage = `url('${item.imgUrl}')`;
+            itemDiv.style.backgroundSize = "cover";
+            itemDiv.style.backgroundPosition = "center";
+            itemDiv.style.color = "white";
+          }
+
+          const detailsDiv = document.createElement("div");
+          detailsDiv.className = "menu-details";
+
+          const title = document.createElement("h3");
+          title.textContent = item.dish;
+          detailsDiv.appendChild(title);
+
+          const price = document.createElement("p");
+          price.textContent = `$${item.price}`;
+          detailsDiv.appendChild(price);
+
+          const description = document.createElement("p");
+          description.className = "descriptiontomakesmall";
+          description.textContent = item.description;
+          detailsDiv.appendChild(description);
+
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = item.price;
+          checkbox.onchange = calculateTotal;
+          itemDiv.appendChild(detailsDiv);
+          itemDiv.appendChild(checkbox);
+          menuContainer.appendChild(itemDiv);
+        });
+      }
+
+      function calculateTotal() {
+        const checkboxes = document.querySelectorAll(
+          '#menu-container input[type="checkbox"]:checked'
+        );
+        let total = 0;
+        checkboxes.forEach((box) => {
+          total += parseFloat(box.value);
+        });
+        document.getElementById(
+          "total-price"
+        ).textContent = `Total: $${total.toFixed(2)}`;
+      }
+
+      function submitOrder() {
+        const selectedItems = document.querySelectorAll(
+          '#menu-container input[type="checkbox"]:checked'
+        );
+        let orderDetails = [];
+        if (selectedItems.length <= 0) {
+          alert("Please select atleast one item");
+        } else {
+          selectedItems.forEach((item) => {
+            let menuItem = item.closest(".menu-item");
+            let dishName = menuItem.querySelector("h3").textContent;
+            let price = item.value;
+            orderDetails.push({ dish: dishName, price: parseFloat(price) });
+          });
+
+          //storing order details so that can be accessed later
+          localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
+
+          // sending data to another page
+          window.location.href = "calculate.html";
+        }
+      }
+    </script>
+  </body>
+</html>

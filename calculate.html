@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .bill-container {
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #000;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        .restaurant-name {
+            text-align: center;
+            margin: 0;
+            font-size: 24px;
+        }
+        .bill-item, .total-line, .tip-line, .final-total-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .total-line, .final-total-line {
+            font-weight: bold;
+        }
+        .tip-input-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        #calculate-tip {
+            margin-top: 10px;
+        }
+        button{
+            color: white;
+            background-color: rgb(33, 33, 233);
+            margin: 20px 0;
+           text-align: center;
+          
+        }
+    </style>
+</head>
+<body>
+
+<div class="bill-container">
+    <h2 class="restaurant-name">Spatula Foods</h2>
+    <div id="order-summary"></div>
+    <div class="total-line"><span>Subtotal:</span><span id="subtotal">$0.00</span></div>
+    <div class="total-line"><span>HST (13%):</span><span id="tax">$0.00</span></div>
+    <div class="final-total-line"><span>Total:</span><span id="total-price">$0.00</span></div>
+    <div class="tip-input-container">
+        <input type="number" id="tip-percentage" placeholder="Tip %" />
+        <button id="calculate-tip">Add Tip</button>
+    </div>
+    <div class="final-total-line"><span>Total with Tip:</span><span id="total-with-tip">$0.00</span></div>
+    <button id="thankyou">Proceed To Pay</button>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const orderDetails = JSON.parse(localStorage.getItem('orderDetails'));
+        const orderSummary = document.getElementById('order-summary');
+        let subtotal = 0;
+
+        orderDetails.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'bill-item';
+            itemElement.innerHTML = `<span>${item.dish}</span><span>$${item.price.toFixed(2)}</span>`;
+            orderSummary.appendChild(itemElement);
+            subtotal += item.price;
+        });
+
+        const tax = subtotal * 0.13; 
+        const total = subtotal + tax;
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+
+        document.getElementById('calculate-tip').addEventListener('click', () => {
+            const tipPercentage = document.getElementById('tip-percentage').value / 100;
+            const totalWithTip = total * (1 + tipPercentage);
+            document.getElementById('total-with-tip').textContent = `$${totalWithTip.toFixed(2)}`;
+        });
+        document.getElementById('thankyou').addEventListener('click', () => {
+            window.location.href = 'thankyoutpage.html'});
+       
+    });
+</script>
+
+</body>
+</html>

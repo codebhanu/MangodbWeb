@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .thankyoucontainer h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .fireworks {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            width: 100vw;
+        }
+        .firework {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #ff0;
+            position: absolute;
+            animation: firework 1s ease-out infinite;
+        }
+        @keyframes firework {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+                background-color: #ff0;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 0.5;
+                background-color: #f00;
+            }
+            100% {
+                transform: scale(0.5);
+                opacity: 0;
+                background-color: #ff0;
+            }
+        }
+        .firework:nth-child(1) { animation-delay: 0s; }
+        .firework:nth-child(2) { animation-delay: 0.2s; }
+        .firework:nth-child(3) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="thankyoucontainer">
+        <h1>Thank You for Your Order!</h1>
+        <div class="fireworks">
+            <div class="firework" style="left: 40%; top: 50%;"></div>
+            <div class="firework" style="left: 50%; top: 50%;"></div>
+            <div class="firework" style="left: 60%; top: 50%;"></div>
+        </div>
+    </div>
+</body>
+</html>

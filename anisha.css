@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box; 
+}
+
+body {
+  width: 100%; 
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+#limitedtimeoption {
+  background-color: #bf4ddb;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.leftsidenav,
+.rightsidenav,
+.logo-for-center {
+  display: flex;
+  gap: 10px;
+}
+
+.leftsidenav,
+.rightsidenav {
+  flex: 1;
+}
+
+.logo-for-center {
+  flex: 0 1 auto;
+}
+
+.logo-for-center button {
+    border:none;
+  width: 200px;
+  height: 100px;
+  background-image: url(spatulalogo.avif);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.leftsidenav {
+  justify-content: flex-start;
+}
+.leftsidenav button {
+   border: none;
+   padding: 20px 20px;
+   font-size:18px;
+   background-color: white;
+   
+  }
+  
+
+.rightsidenav {
+  justify-content: flex-end;
+}
+.rightsidenav button {
+    background-color: white;
+    border: none;
+    padding: 20px 20px;
+    font-size:18px;
+    
+   }
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.main-nav button {
+    font-size:20px;
+  color: red;
+  border: 2px solid red;
+  padding: 10px 20px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.main-nav button:hover {
+  color: white;
+  background-color: #f05648;
+}
+
+.descriptiontomakesmall {
+  font-size: 0.8vw;
+}
+#makeitcenter {
+  font: bold;
+  color: rgb(16, 101, 175);
+}
+#total-price {
+  color: rgb(6, 210, 84);
+  font-size: large;
+}
+
+#maindiv {
+  margin: 0;
+  text-align: cneter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-button: 10px;
+}
+#maindiv button {
+    background-color: blue;
+    color: white;
+    width: 100px;
+    height: 35px;
+    margin-button: 10px;
+}
+.menu-item {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: black;
+  margin: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-basis: calc(33.33% - 20px);
+  box-sizing: border-box;
+}
+
+.menu-details {
+  display: flex;
+  flex-direction: column;
+}
+.total-price {
+  font-size: 20px;
+  margin-top: 20px;
+}
+#menu-container {
+  width: 60%; 
+  height: 600px; 
+  border: red solid;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  overflow: auto; /* Keeps internal overflow scrollable*/
+}
